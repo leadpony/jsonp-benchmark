@@ -98,7 +98,7 @@
             <properties>
                 <jsonp.impl.groupId>org.apache.johnzon</jsonp.impl.groupId>
                 <jsonp.impl.artifactId>johnzon-core</jsonp.impl.artifactId>
-                <jsonp.impl.version>1.1.11</jsonp.impl.version>
+                <jsonp.impl.version>1.1.12-SNAPSHOT</jsonp.impl.version>
             </properties>
         </profile>
     </profiles>
