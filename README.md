@@ -3,7 +3,7 @@
 ## Requirements
 
 The following tools are required to build this software.
-* JDK 8 or higher
+* JDK 9 or higher
 * [Apache Maven] 3.6.0 or higher
 
 ## How to Build

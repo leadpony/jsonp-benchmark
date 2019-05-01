@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original authors.
+ * Copyright 2019 the JSON-P Benchmark Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.leadpony.jsonp.benchmark;
 
-import java.io.InputStream;
+import java.io.StringReader;
 import java.util.concurrent.TimeUnit;
 
 import javax.json.Json;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParserFactory;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -31,32 +30,34 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.infra.Blackhole;
 
 /**
- * A benchmark of JSON Processing API implementation.
- *
  * @author leadpony
  */
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
 @State(Scope.Benchmark)
-public class JsonpBenchmark {
+public class JsonParserBenchmark {
 
-    @Param({"glossary.json"})
-    private String name;
+    @Param({"GLOSSARY"})
+    private JsonResource resource;
 
-    private JsonValue value;
+    private JsonParserFactory factory;
+    private String json;
 
     @Setup
     public void setUp() {
-        InputStream in = getClass().getResourceAsStream("/" + name);
-        try (JsonReader reader = Json.createReader(in)) {
-            this.value = reader.readValue();
-        }
+        factory = Json.createParserFactory(null);
+        json = resource.getJsonAsString();
     }
 
     @Benchmark
-    public String jsonValueToString() {
-        return this.value.toString();
+    public void parse(Blackhole blackhole) {
+        try (JsonParser parser = factory.createParser(new StringReader(json))) {
+            while (parser.hasNext()) {
+                blackhole.consume(parser.next());
+            }
+        }
     }
 }
