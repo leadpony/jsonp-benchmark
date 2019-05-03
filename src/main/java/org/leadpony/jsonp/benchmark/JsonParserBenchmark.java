@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.json.Json;
 import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParserFactory;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -30,7 +31,6 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.infra.Blackhole;
 
 /**
  * @author leadpony
@@ -53,11 +53,13 @@ public class JsonParserBenchmark {
     }
 
     @Benchmark
-    public void parse(Blackhole blackhole) {
+    public Event parse() {
+        Event event = null;
         try (JsonParser parser = factory.createParser(new StringReader(json))) {
             while (parser.hasNext()) {
-                blackhole.consume(parser.next());
+                event = parser.next();
             }
         }
+        return event;
     }
 }
