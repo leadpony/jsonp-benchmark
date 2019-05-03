@@ -1,5 +1,8 @@
 # JSON Processing API Benchmark
 
+**WARNING: This repository has been archived as all activities are now happening in the repository of [
+JSON-P Test Suite](https://github.com/leadpony/jsonp-test-suite).**
+
 ## Requirements
 
 The following tools are required to build this software.
