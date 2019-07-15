@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the JSON-P Benchmark Authors.
+ * Copyright 2019 the JSON-P Test Suite Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,8 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
 /**
+ * A benchmark for {@link JsonReader}.
+ *
  * @author leadpony
  */
 @BenchmarkMode(Mode.Throughput)

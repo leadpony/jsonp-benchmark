@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.leadpony.jsonp.benchmark;
 
 import java.util.concurrent.TimeUnit;
 
 import javax.json.Json;
 import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
 import javax.json.JsonValue;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParserFactory;
+import javax.json.stream.JsonParser.Event;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -33,30 +34,52 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
 /**
- * A benchmark for {@link JsonValue}.
+ * A benchmark for in-memory {@link JsonParser}.
  *
  * @author leadpony
  */
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
 @State(Scope.Benchmark)
-public class JsonValueBenchmark {
+public class JsonValueParserBenchmark {
 
-    @Param({"GLOSSARY"})
+    @Param({ "ATOM_API", "RFC7159_OBJECT", "RFC7159_ARRAY" })
     private JsonResource resource;
 
-    private JsonValue value;
+    private JsonParserFactory parserFactory;
+    private JsonValue json;
 
     @Setup
     public void setUp() {
-        JsonReaderFactory factory= Json.createReaderFactory(null);
-        try (JsonReader reader = factory.createReader(resource.createReader())) {
-            this.value = reader.readValue();
+        parserFactory = Json.createParserFactory(null);
+        json = readJsonValue();
+    }
+
+    private JsonValue readJsonValue() {
+        try (JsonReader reader = Json.createReader(resource.createReader())) {
+            return reader.readValue();
         }
     }
 
     @Benchmark
-    public String valueToString() {
-        return this.value.toString();
+    public Event parseValue() {
+        Event event = null;
+        try (JsonParser parser = createParser(json)) {
+            while (parser.hasNext()) {
+                event = parser.next();
+            }
+        }
+        return event;
+    }
+
+    private JsonParser createParser(JsonValue value) {
+        switch (value.getValueType()) {
+        case ARRAY:
+            return parserFactory.createParser(value.asJsonArray());
+        case OBJECT:
+            return parserFactory.createParser(value.asJsonObject());
+        default:
+            throw new IllegalArgumentException();
+        }
     }
 }

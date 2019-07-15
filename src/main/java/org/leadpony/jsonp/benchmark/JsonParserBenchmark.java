@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the JSON-P Benchmark Authors.
+ * Copyright 2019 the JSON-P Test Suite Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,8 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
 /**
+ * A benchmark for {@link JsonParser}.
+ *
  * @author leadpony
  */
 @BenchmarkMode(Mode.Throughput)
@@ -40,7 +42,7 @@ import org.openjdk.jmh.annotations.State;
 @State(Scope.Benchmark)
 public class JsonParserBenchmark {
 
-    @Param({"GLOSSARY"})
+    @Param({ "RFC7159_OBJECT", "RFC7159_ARRAY" })
     private JsonResource resource;
 
     private JsonParserFactory factory;
