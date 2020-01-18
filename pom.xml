@@ -80,7 +80,7 @@
 
     <profiles>
         <profile>
-            <id>with-ri</id>
+            <id>with-jakarta</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -105,7 +105,7 @@
             <properties>
                 <provider.groupId>org.leadpony.joy</provider.groupId>
                 <provider.artifactId>joy</provider.artifactId>
-                <provider.version>1.0.0-SNAPSHOT</provider.version>
+                <provider.version>1.1.0</provider.version>
                 <provider.classifier></provider.classifier>
             </properties>
         </profile>
