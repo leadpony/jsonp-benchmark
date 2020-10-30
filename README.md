@@ -3,7 +3,7 @@
 ## Requirements
 
 The following tools are required to build and run the artifacts.
-* JDK 9 or higher
+* JDK 11 or higher
 * [Apache Maven] 3.6.0 or higher
 
 ## How to Build
@@ -12,9 +12,9 @@ The following tools are required to build and run the artifacts.
 mvn clean package
 ```
 
-When using [Apache Johnzon] as the service provider:
+When using [Joy] as the service provider:
 ```bash
-mvn clean package -P with-johnzon
+mvn clean package -P with-joy
 ```
 
 ## How to Run
@@ -24,4 +24,4 @@ java -jar target/benchmarks.jar
 ```
 
 [Apache Maven]: https://maven.apache.org/
-[Apache Johnzon]: https://johnzon.apache.org/
+[Joy]: https://github.com/leadpony/joy
